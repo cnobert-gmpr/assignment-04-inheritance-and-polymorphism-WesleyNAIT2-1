@@ -3,13 +3,8 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace gmpr2514_assignment_04_pong_inheritance;
 
-public class Brick
+public class Brick : PongRectangleMoving
 {
-    private Vector2 _position;
-    private Vector2 _dimensions;
-    private Rectangle _playAreaBoundingBox;
-    private Texture2D _pixel;
-
     private bool _isAlive;
 
     internal bool IsAlive
@@ -20,19 +15,9 @@ public class Brick
         }
     }
 
-    internal Rectangle BoundingBox
+    internal override void Initialize(Vector2 initialPosition, Vector2 dimensions, Rectangle playAreaBoundingBox)
     {
-        get
-        {
-            return new Rectangle(_position.ToPoint(), _dimensions.ToPoint());
-        }
-    }
-
-    internal void Initialize(Vector2 initialPosition, Vector2 dimensions, Rectangle playAreaBoundingBox)
-    {
-        _position = initialPosition;
-        _dimensions = dimensions;
-        _playAreaBoundingBox = playAreaBoundingBox;
+        base.Initialize(initialPosition, dimensions, playAreaBoundingBox);
         _isAlive = true;
     }
 
@@ -41,11 +26,17 @@ public class Brick
         _pixel = CreatePixel(graphicsDevice, colour);
     }
 
-    internal void Draw(SpriteBatch spriteBatch)
+    internal override void Update(GameTime gameTime)
+    {
+        
+    }
+
+    internal override void Draw(SpriteBatch spriteBatch)
     {
         if(_isAlive)
         {
             spriteBatch.Draw(_pixel, BoundingBox, Color.White);
+            // I was not sure what to do with this
         }
     }
 

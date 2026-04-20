@@ -20,9 +20,11 @@ public class Pong : Game
     private Ball _ball;
     private Paddle _paddle;
 
-    private BlockerStationary _blockerStationary;
-    private BlockerUpDown _blockerUpDown;
-    private BlockerLeftRight _blockerLeftRight;
+    //private BlockerStationary _blockerStationary;
+    private PongRectangle _pongRectangle;
+    //private BlockerUpDown _blockerUpDown;
+    private PongRectangleMoving _blockerUpDown, _blockerLeftRight;
+    //private BlockerLeftRight _blockerLeftRight;
 
     private Brick[] _bricks;
 
@@ -47,15 +49,18 @@ public class Pong : Game
         _paddle = new Paddle();
         _paddle.Initialize(new Vector2(420, 150), new Vector2(_PaddleWidth, _PaddleHeight), _playAreaBoundingBox);
 
-        _blockerStationary = new BlockerStationary();
+        //_blockerStationary = new BlockerStationary();
+        _pongRectangle = new PongRectangle();
         Vector2 stationaryDimensions = new Vector2(28, 36);
         Vector2 stationaryPosition = new Vector2(
             _playAreaBoundingBox.Center.X - stationaryDimensions.X / 2f,
             _playAreaBoundingBox.Center.Y - stationaryDimensions.Y / 2f
         );
-        _blockerStationary.Initialize(stationaryPosition, stationaryDimensions, _playAreaBoundingBox);
+        //_blockerStationary.Initialize(stationaryPosition, stationaryDimensions, _playAreaBoundingBox);
+        _pongRectangle.Initialize(stationaryPosition, stationaryDimensions, _playAreaBoundingBox);
 
         _blockerUpDown = new BlockerUpDown();
+        //_blockerUpDown = new PongRectangleMoving();
         _blockerUpDown.Initialize(new Vector2(240, 60), new Vector2(20, 32), _playAreaBoundingBox);
 
         _blockerLeftRight = new BlockerLeftRight();
@@ -89,7 +94,8 @@ public class Pong : Game
         _ball.LoadContent(Content);
 
         _paddle.LoadContent(GraphicsDevice);
-        _blockerStationary.LoadContent(GraphicsDevice);
+        //_blockerStationary.LoadContent(GraphicsDevice);
+        _pongRectangle.LoadContent(GraphicsDevice);
         _blockerUpDown.LoadContent(GraphicsDevice);
         _blockerLeftRight.LoadContent(GraphicsDevice);
 
@@ -115,7 +121,8 @@ public class Pong : Game
             _paddle.Direction = new Vector2(0, 0);
         }
 
-        _blockerStationary.Update(gameTime);
+        //_blockerStationary.Update(gameTime);
+        _pongRectangle.Update(gameTime);
         _blockerUpDown.Update(gameTime);
         _blockerLeftRight.Update(gameTime);
 
@@ -123,7 +130,8 @@ public class Pong : Game
         _paddle.Update(gameTime);
 
         _ball.ProcessCollision(_paddle.BoundingBox);
-        _ball.ProcessCollision(_blockerStationary.BoundingBox);
+        // _ball.ProcessCollision(_blockerStationary.BoundingBox);
+        _ball.ProcessCollision(_pongRectangle.BoundingBox);
         _ball.ProcessCollision(_blockerUpDown.BoundingBox);
         _ball.ProcessCollision(_blockerLeftRight.BoundingBox);
 
@@ -146,7 +154,8 @@ public class Pong : Game
         _ball.Draw(_spriteBatch);
         _paddle.Draw(_spriteBatch);
 
-        _blockerStationary.Draw(_spriteBatch);
+        //_blockerStationary.Draw(_spriteBatch);
+        _pongRectangle.Draw(_spriteBatch);
         _blockerUpDown.Draw(_spriteBatch);
         _blockerLeftRight.Draw(_spriteBatch);
 
